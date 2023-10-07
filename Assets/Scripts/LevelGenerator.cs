@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TileMaps;
+using UnityEngine.Tilemaps;
 
 public class LevelGenerator : MonoBehaviour
 {   
-    private TileBase[] tiles;
-    public TileMap tileMap;
+    public TileBase[] tiles;
+    public Tilemap tileMap;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,32 +30,57 @@ public class LevelGenerator : MonoBehaviour
 
         int[,] rotationData = new int[levelMap.GetLength(0), levelMap.GetLength(1)];
 
-        tiles = Resources.LoadAll<TileBase>("Tiles/TestPalette");
+        // tiles = Resources.LoadAll<TileBase>("Tiles/TestPallete");
+        foreach (TileBase tile in tiles) {
+            Debug.Log(tile);
+        }
 
-        for (x = 0; x < levelMap.GetLength(0); x++) {
-            for (y = 0; y < levelMap.GetLength(1); y++) {
-                switch (levelMap[x, y]) {
+        for (int y = 0; y < levelMap.GetLength(0); y++) {
+            for (int x = 0; x < levelMap.GetLength(1); x++) {
+                Matrix4x4 matrix;
+                var value = levelMap[y, x];
+                tileMap.SetTile(new Vector3Int(x, -y, 0), tiles[value]);
+                switch (value) {
                     case 0:
-                        tileMap.SetTile(new Vector3Int(x, y, 0), tiles[22]);
-                        rotationData[x, y] = 0;
+                        rotationData[y, x] = 0;
                         break;
                     case 1:
+                        rotationData[y, x] = 0;
                         break;
                     case 2:
+                        rotationData[y, x] = 0;
                         break;
                     case 3:
+                        rotationData[y, x] = 0;
                         break;
                     case 4:
+                        try {
+                            if (((levelMap[y, x-1] == 3) || (levelMap[y, x-1] == 4 && rotationData[y, x-1] == 1)) && ((levelMap[y, x+1] == 3) || (levelMap[y, x+1] == 4))) {
+                                rotationData[y, x] = 1;
+                            } else {
+                                matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, 90f), Vector3.one);
+                                tileMap.SetTransformMatrix(new Vector3Int(x, -y, 0),matrix);
+                                rotationData[y, x] = 2;
+                            }
+                        } catch (System.Exception err) {
+                            Debug.Log("err");
+                            matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, 90f), Vector3.one);
+                            tileMap.SetTransformMatrix(new Vector3Int(x, -y, 0),matrix);
+                        }
                         break;
                     case 5:
-                        tileMap.SetTile(new Vector3Int(x, y, 0), tiles[23]);
-                        rotationData[x, y] = 0;
+                        rotationData[y, x] = 0;
                         break;
                     case 6:
+                        rotationData[y, x] = 0;
+
                         break;
                     case 7:
+                        rotationData[y, x] = 0;
                         break;
                 }
+                Debug.Log("V: " + value + ", R: " + rotationData[y, x]);
+                
             }
         }
     }
