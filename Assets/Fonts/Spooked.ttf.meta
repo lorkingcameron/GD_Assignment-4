@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: b3910fadfb4458d4b953f4526a5b3bf0
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Spooked
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a0ca3fd4b11efb9479f21f6450b86263, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
