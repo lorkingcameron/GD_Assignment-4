@@ -6,11 +6,9 @@ public class Tweener : MonoBehaviour
 {
     // private Tween activeTween;
     private List<Tween> activeTweens = new List<Tween>();
-    private float speed;
     // Start is called before the first frame update
     void Start()
     {
-        speed = 3.0f;
     }
 
     // Update is called once per frame
@@ -21,7 +19,7 @@ public class Tweener : MonoBehaviour
                 float distance = Vector3.Distance(activeTweens[i].Target.position, activeTweens[i].EndPos);
 
                 if (distance > 0.1f) {
-                    Vector3 movePos = Vector3.MoveTowards(activeTweens[i].Target.position, activeTweens[i].EndPos, Time.deltaTime * speed);
+                    Vector3 movePos = Vector3.MoveTowards(activeTweens[i].Target.position, activeTweens[i].EndPos, Time.deltaTime * activeTweens[i].Speed);
                     activeTweens[i].Target.position = movePos;
                 } else {
                     activeTweens[i].Target.position = activeTweens[i].EndPos;
@@ -31,11 +29,11 @@ public class Tweener : MonoBehaviour
         } 
     }
 
-    public bool AddTween(Transform targetObject, Vector3 startPos, Vector3 endPos) {
+    public bool AddTween(Transform targetObject, Vector3 startPos, Vector3 endPos, float speed = 3.0f) {
         if (TweenExists(targetObject)) {
             return false;
         } else {
-            activeTweens.Add(new Tween(targetObject, startPos, endPos));
+            activeTweens.Add(new Tween(targetObject, startPos, endPos, speed));
             return true;
         }
     }
